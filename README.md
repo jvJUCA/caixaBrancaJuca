@@ -1,20 +1,55 @@
-# Análise de Código - Classe `User`
+# README - JAVADOC
 
-Este documento apresenta uma análise de possíveis erros  para a classe `User`.
+Este documento descreve o funcionamento do pacote `login`, responsável pela autenticação de usuários em um banco de dados MySQL.
 
-## 1. Erros e Melhorias
+## Importando as Classes Necessárias
 
-### 1.1 Tratamento de Exceções
-O código apresenta a ausência de mensagens para tratamento de exceções, o que dificulta o diagnóstico de falhas. Para melhorar, é recomendável adicionar logs ou exibições de mensagens detalhadas nos blocos `catch`, como `e.printStackTrace()`.
+O código importa as seguintes classes Java:
 
-### 1.2 Falta de Fechamento da Conexão
-O código não fecha a conexão com o banco de dados após o uso, o que pode causar vazamento de recursos. Para evitar isso, é aconselhável utilizar o recurso `try-with-resources` ou garantir o fechamento da conexão em um bloco `finally`.
+- `java.sql.Connection`
+- `java.sql.DriverManager`
+- `java.sql.ResultSet`
+- `java.sql.Statement`
 
-### 1.3 Validação de Entradas
-O código não valida as entradas dos parâmetros `login` e `senha`, o que pode permitir o envio de valores inválidos ou tendenciosos. Para resolver isso, é necessário validar as entradas antes de processá-las, garantindo que não sejam nulas ou vazias.
+## Classe `User`
 
-### 1.4 Tratamento de Conexão Nula
-Não há um tratamento adequado para o caso de a conexão com o banco não ser estabelecida corretamente. 
+A classe `User` representa um sistema de Login de usuários com autenticação no banco de dados. Ela se conecta a um banco de dados MySQL e verifica se o usuário e senha existem no banco.
 
-### 1.5 Inicialização da Variável `nome`
-A variável `nome`, que armazena o nome do usuário retornado pela consulta SQL, pode não ser inicializada caso a consulta não retorne nenhum resultado, o que pode causar problemas em outras partes do código.
+### Autor
+
+- João Vitor Amaral Franzoni
+
+### Versão
+
+- 1.0
+
+### Atributos
+
+- `nome`: O nome do usuário retornado pela consulta SQL após autenticação bem-sucedida.
+- `result`: O resultado da verificação das credenciais.
+
+### Métodos
+
+#### `conectarBD()`
+
+Este método estabelece uma conexão com o banco de dados MySQL.
+
+- **Descrição**: A conexão é estabelecida com base na URL passada.
+- **Retorno**: Retorna um objeto representando a conexão do banco de dados ou `null` caso a conexão falhe.
+
+#### `verificarUsuario(login, senha)`
+
+Verifica se o login e senha passados estão cadastrados no banco de dados.
+
+- **Parâmetros**:
+  - `login`: O login do usuário a ser autenticado.
+  - `senha`: A senha correspondente ao login.
+- **Retorno**: Define `result = true` caso as credenciais sejam válidas ou `result = false` caso contrário.
+
+### Considerações
+
+- **Tratamento de Exceções**: O código captura exceções sem fornecer mensagens detalhadas, o que dificulta o diagnóstico de falhas. É recomendável adicionar logs ou exibições de mensagens detalhadas nos blocos `catch`.
+- **Fechamento da Conexão**: Após o uso, a conexão com o banco de dados deve ser fechada para evitar vazamento de recursos. Recomenda-se usar `try-with-resources` ou garantir o fechamento da conexão em um bloco `finally`.
+- **Validação de Entradas**: As entradas dos parâmetros `login` e `senha` devem ser validadas para evitar o envio de valores inválidos ou tendenciosos.
+- **Tratamento de Conexão Nula**: É importante tratar adequadamente o caso de a conexão com o banco não ser estabelecida corretamente.
+
